@@ -247,18 +247,18 @@ bool logTest(void)
 
 void logTask(void * prm)
 {
-	crtpInitTaskQueue(CRTP_PORT_LOG);
+  crtpInitTaskQueue(CRTP_PORT_LOG);
 
-	while(1) {
-		crtpReceivePacketBlock(CRTP_PORT_LOG, &p);
+  while(1) {
+    crtpReceivePacketBlock(CRTP_PORT_LOG, &p);
 
-		xSemaphoreTake(logLock, portMAX_DELAY);
-		if (p.channel==TOC_CH)
-		  logTOCProcess(p.data[0]);
-		if (p.channel==CONTROL_CH)
-		  logControlProcess();
-		xSemaphoreGive(logLock);
-	}
+    xSemaphoreTake(logLock, portMAX_DELAY);
+    if (p.channel==TOC_CH)
+      logTOCProcess(p.data[0]);
+    if (p.channel==CONTROL_CH)
+      logControlProcess();
+    xSemaphoreGive(logLock);
+  }
 }
 
 void logTOCProcess(int command)
@@ -451,8 +451,8 @@ static int logCreateBlock(unsigned char id, struct ops_setting * settings, int l
 
   if (logBlocks[i].timer == NULL)
   {
-	logBlocks[i].id = BLOCK_ID_FREE;
-	return ENOMEM;
+  logBlocks[i].id = BLOCK_ID_FREE;
+  return ENOMEM;
   }
 
   LOG_DEBUG("Added block ID %d\n", id);
@@ -679,7 +679,7 @@ static int logStartBlock(int id, unsigned int period)
 
   if (period>0)
   {
-	CUSTOM_LOG_DEBUG("Change the log timer period to %i\n", period); // ================================Change of period=============================
+  CUSTOM_LOG_DEBUG("Change the log timer period to %i\n", period); // ================================Change of period=============================
     xTimerChangePeriod(logBlocks[i].timer, M2T(period), 100);
     xTimerStart(logBlocks[i].timer, 100);
   } else {
@@ -727,11 +727,11 @@ static bool appendToPacket(CRTPPacket * pk, const void * data, size_t n) {
 static CustomTimestampFun custom_timestamp_call = NULL;
 /* Allow setting custom timestamp */
 void setCustomTimestamp(CustomTimestampFun func_pointer){
-	custom_timestamp_call = func_pointer;
+  custom_timestamp_call = func_pointer;
 }
 
 void resetCustomTimestamp(){
-	custom_timestamp_call = NULL;
+  custom_timestamp_call = NULL;
 }
 
 /* This function is usually called by the worker subsystem */
@@ -746,9 +746,9 @@ void logRunBlock(void * arg)
 
   // Add call to custom timestamp ============================================================================================
   if (custom_timestamp_call == NULL){
-	  timestamp = ((long long)xTaskGetTickCount())/portTICK_RATE_MS;
+    timestamp = ((long long)xTaskGetTickCount())/portTICK_RATE_MS;
   }else{
-	  timestamp = custom_timestamp_call();
+    timestamp = custom_timestamp_call();
   }
 
   pk.header = CRTP_HEADER(CRTP_PORT_LOG, LOG_CH);

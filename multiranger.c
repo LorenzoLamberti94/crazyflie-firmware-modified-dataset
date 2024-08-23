@@ -76,11 +76,11 @@ NO_DMA_CCM_SAFE_ZERO_INIT static VL53L1_Dev_t devLeft;
 NO_DMA_CCM_SAFE_ZERO_INIT static VL53L1_Dev_t devRight;
 
 struct{
-	uint8_t front;
-	uint8_t back;
-	uint8_t right;
-	uint8_t left;
-	uint8_t up;
+    uint8_t front;
+    uint8_t back;
+    uint8_t right;
+    uint8_t left;
+    uint8_t up;
 }range_states;
 
 #define PRESET_MODE VL53L1_PRESETMODE_LITE_RANGING
@@ -92,7 +92,7 @@ static uint16_t mrGetMeasurementAndRestart(VL53L1_Dev_t *dev, uint8_t *range_sta
     VL53L1_Error status = VL53L1_ERROR_NONE;
     VL53L1_RangingMeasurementData_t rangingData;
 
-	status = VL53L1_WaitMeasurementDataReady(dev);
+    status = VL53L1_WaitMeasurementDataReady(dev);
     status = VL53L1_GetRangingMeasurementData(dev, &rangingData);
     status = VL53L1_ClearInterruptAndStartMeasurement(dev);
     status = status;
@@ -114,19 +114,19 @@ static void mrTask(void *param)
 
     status = VL53L1_SetPresetMode(&devBack, PRESET_MODE);
     status = VL53L1_SetDistanceMode(&devBack, RANGE_MODE);
-	status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devBack, TIMING_BUDGET_US);
+    status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devBack, TIMING_BUDGET_US);
 
-	status = VL53L1_SetPresetMode(&devUp, PRESET_MODE);
-	status = VL53L1_SetDistanceMode(&devUp, RANGE_MODE);
-	status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devUp, TIMING_BUDGET_US);
+    status = VL53L1_SetPresetMode(&devUp, PRESET_MODE);
+    status = VL53L1_SetDistanceMode(&devUp, RANGE_MODE);
+    status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devUp, TIMING_BUDGET_US);
 
-	status = VL53L1_SetPresetMode(&devLeft, PRESET_MODE);
-	status = VL53L1_SetDistanceMode(&devLeft, RANGE_MODE);
-	status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devLeft, TIMING_BUDGET_US);
+    status = VL53L1_SetPresetMode(&devLeft, PRESET_MODE);
+    status = VL53L1_SetDistanceMode(&devLeft, RANGE_MODE);
+    status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devLeft, TIMING_BUDGET_US);
 
-	status = VL53L1_SetPresetMode(&devRight, PRESET_MODE);
-	status = VL53L1_SetDistanceMode(&devRight, RANGE_MODE);
-	status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devRight, TIMING_BUDGET_US);
+    status = VL53L1_SetPresetMode(&devRight, PRESET_MODE);
+    status = VL53L1_SetDistanceMode(&devRight, RANGE_MODE);
+    status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&devRight, TIMING_BUDGET_US);
 
 
     // Restart all sensors
@@ -141,23 +141,23 @@ static void mrTask(void *param)
     status = VL53L1_ClearInterruptAndStartMeasurement(&devFront);
 
     status = VL53L1_WaitMeasurementDataReady(&devBack);
-	status = VL53L1_ClearInterruptAndStartMeasurement(&devBack);
+    status = VL53L1_ClearInterruptAndStartMeasurement(&devBack);
 
-	status = VL53L1_WaitMeasurementDataReady(&devUp);
-	status = VL53L1_ClearInterruptAndStartMeasurement(&devUp);
+    status = VL53L1_WaitMeasurementDataReady(&devUp);
+    status = VL53L1_ClearInterruptAndStartMeasurement(&devUp);
 
-	status = VL53L1_WaitMeasurementDataReady(&devLeft);
-	status = VL53L1_ClearInterruptAndStartMeasurement(&devLeft);
+    status = VL53L1_WaitMeasurementDataReady(&devLeft);
+    status = VL53L1_ClearInterruptAndStartMeasurement(&devLeft);
 
-	status = VL53L1_WaitMeasurementDataReady(&devRight);
-	status = VL53L1_ClearInterruptAndStartMeasurement(&devRight);
-	status = status;
+    status = VL53L1_WaitMeasurementDataReady(&devRight);
+    status = VL53L1_ClearInterruptAndStartMeasurement(&devRight);
+    status = status;
 
-	TickType_t lastWakeTime = xTaskGetTickCount();
+    TickType_t lastWakeTime = xTaskGetTickCount();
 
     while (1)
     {
-    	vTaskDelayUntil(&lastWakeTime, M2T(TIMING_BUDGET_US / 1000.0));
+        vTaskDelayUntil(&lastWakeTime, M2T(TIMING_BUDGET_US / 1000.0));
         rangeSet(rangeFront, mrGetMeasurementAndRestart(&devFront, &range_states.front)/1000.0f);
         rangeSet(rangeBack, mrGetMeasurementAndRestart(&devBack, &range_states.back)/1000.0f);
         rangeSet(rangeUp, mrGetMeasurementAndRestart(&devUp, &range_states.up)/1000.0f);
@@ -209,29 +209,29 @@ static bool mrTest()
         VL53L1_PresetModes presetMode;
         VL53L1_GetPresetMode(&devFront, &presetMode);
         switch(presetMode){
-			case VL53L1_PRESETMODE_AUTONOMOUS:
-				DEBUG_PRINT("Preset mode: Autonomous\n");
-				break;
-			case VL53L1_PRESETMODE_LITE_RANGING:
-				DEBUG_PRINT("Preset mode: Lite ranging\n");
-				break;
-			case VL53L1_PRESETMODE_LOWPOWER_AUTONOMOUS:
-				DEBUG_PRINT("Preset mode: Low power autonomous\n");
-				break;
+            case VL53L1_PRESETMODE_AUTONOMOUS:
+                DEBUG_PRINT("Preset mode: Autonomous\n");
+                break;
+            case VL53L1_PRESETMODE_LITE_RANGING:
+                DEBUG_PRINT("Preset mode: Lite ranging\n");
+                break;
+            case VL53L1_PRESETMODE_LOWPOWER_AUTONOMOUS:
+                DEBUG_PRINT("Preset mode: Low power autonomous\n");
+                break;
         }
         VL53L1_DistanceModes distanceMode;
         VL53L1_GetDistanceMode(&devFront, &distanceMode);
         switch(presetMode){
-			case VL53L1_DISTANCEMODE_SHORT:
-				DEBUG_PRINT("Distance mode: Short\n");
-				break;
-			case VL53L1_DISTANCEMODE_MEDIUM:
-				DEBUG_PRINT("Distance mode: Medium\n");
-				break;
-			case VL53L1_DISTANCEMODE_LONG:
-				DEBUG_PRINT("Distance mode: Long\n");
-				break;
-		}
+            case VL53L1_DISTANCEMODE_SHORT:
+                DEBUG_PRINT("Distance mode: Short\n");
+                break;
+            case VL53L1_DISTANCEMODE_MEDIUM:
+                DEBUG_PRINT("Distance mode: Medium\n");
+                break;
+            case VL53L1_DISTANCEMODE_LONG:
+                DEBUG_PRINT("Distance mode: Long\n");
+                break;
+        }
         uint32_t measurementTimingBudgetMicroSeconds;
         VL53L1_GetMeasurementTimingBudgetMicroSeconds(&devFront, &measurementTimingBudgetMicroSeconds);
         DEBUG_PRINT("Measurement timing budget: %u us\n", measurementTimingBudgetMicroSeconds);
@@ -242,7 +242,7 @@ static bool mrTest()
         VL53L1_GetLimitCheckValue(&devFront, VL53L1_CHECKENABLE_SIGMA_FINAL_RANGE, &limitCheckValue);
         DEBUG_PRINT("Sigma final range: %f\n", limitCheckValue / ((float) (1<<16)));
         VL53L1_GetLimitCheckValue(&devFront, VL53L1_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, &limitCheckValue);
-		DEBUG_PRINT("Signal rate final range: %f\n", limitCheckValue/ ((float) (1<<16)));
+        DEBUG_PRINT("Signal rate final range: %f\n", limitCheckValue/ ((float) (1<<16)));
 
     }
     else
@@ -296,10 +296,10 @@ static bool mrTest()
     }
 
     VL53L1_WaitDeviceBooted(&devFront);
-	VL53L1_WaitDeviceBooted(&devBack);
-	VL53L1_WaitDeviceBooted(&devUp);
-	VL53L1_WaitDeviceBooted(&devLeft);
-	VL53L1_WaitDeviceBooted(&devRight);
+    VL53L1_WaitDeviceBooted(&devBack);
+    VL53L1_WaitDeviceBooted(&devUp);
+    VL53L1_WaitDeviceBooted(&devLeft);
+    VL53L1_WaitDeviceBooted(&devRight);
 
     isTested = true;
 
