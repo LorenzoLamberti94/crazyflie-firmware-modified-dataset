@@ -26,7 +26,7 @@
  * This file has been modified for the dataset collection framework of
  * PULP-Dronet v3 (https://github.com/pulp-platform/pulp-dronet) by:
  *        Lorenzo Lamberti      <lorenzo.lamberti@unibo.it>
- *        Daniel Rieben		      <riebend@student.ethz.ch> */
+ *        Daniel Rieben         <riebend@student.ethz.ch> */
 
 #ifndef __LOG_H__
 #define __LOG_H__

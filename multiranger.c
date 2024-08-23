@@ -26,7 +26,7 @@
  * This file has been modified for the dataset collection framework of
  * PULP-Dronet v3 (https://github.com/pulp-platform/pulp-dronet) by:
  *        Lorenzo Lamberti      <lorenzo.lamberti@unibo.it>
- *        Daniel Rieben		      <riebend@student.ethz.ch>
+ *        Daniel Rieben         <riebend@student.ethz.ch>
  */
 
 /* multiranger.c: Multiranger deck driver */

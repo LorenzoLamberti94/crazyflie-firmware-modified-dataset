@@ -26,7 +26,7 @@
  * This file has been modified for the dataset collection framework of
  * PULP-Dronet v3 (https://github.com/pulp-platform/pulp-dronet) by:
  *        Lorenzo Lamberti      <lorenzo.lamberti@unibo.it>
- *        Daniel Rieben		      <riebend@student.ethz.ch> */
+ *        Daniel Rieben         <riebend@student.ethz.ch> */
 
 /* The TOC logic is mainly based on param.c
  * FIXME: See if we can factorise the TOC code */
